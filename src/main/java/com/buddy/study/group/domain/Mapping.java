@@ -2,11 +2,14 @@ package com.buddy.study.group.domain;
 
 import com.buddy.study.account.domain.Account;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Setter
+@Getter
 public class Mapping {
     @Id
     @GeneratedValue
@@ -17,5 +20,6 @@ public class Mapping {
     private Account account;
     @ManyToOne
     @JoinColumn(name = "groupId")
-    private Group group;
+    private StudyGroup group;
 }
+
