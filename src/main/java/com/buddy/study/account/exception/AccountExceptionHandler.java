@@ -1,6 +1,8 @@
 package com.buddy.study.account.exception;
 
 import com.buddy.study.common.dto.CommonResponse;
+import com.buddy.study.common.service.CommonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,21 +11,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Collections;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @ControllerAdvice("com.buddy.study.account")
 public class AccountExceptionHandler {
-    private CommonResponse commonResponse=new CommonResponse();
+    private final CommonService commonService;
     @ExceptionHandler(EmailDuplication.class)
     public ResponseEntity<CommonResponse> EmailDuplication(Exception e){
-        commonResponse.setCode("1000");
-        commonResponse.setMessage(e.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(commonResponse);
+                .body(commonService.response("1000",e.getMessage(),null));
     }
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<CommonResponse> LoginFail(Exception e){
-        commonResponse.setCode("2000");
-        commonResponse.setMessage(e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(commonResponse);
+                .body(commonService.response("2000",e.getMessage(),null));
     }
 }

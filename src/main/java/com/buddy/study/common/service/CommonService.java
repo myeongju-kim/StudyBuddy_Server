@@ -16,13 +16,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommonService {
     final private AccountRepository accountRepository;
-    private CommonResponse commonResponse=new CommonResponse();
+    public CommonResponse response(String code, String message, Object object){
+        CommonResponse commonResponse=new CommonResponse();
+        commonResponse.setCode("0000");
+        commonResponse.setMessage(message);
+        commonResponse.setResult(object);
+        return commonResponse;
+    }
     public CommonResponse checkUser(String name){
         if(accountRepository.findByName(name)!=null){
             throw new NameDuplication("닉네임이 중복되었습니다.");
         }
-        commonResponse.setCode("0000");
-        commonResponse.setMessage("사용가능한 닉네임 입니다.");
-        return commonResponse;
+
+        return response("0000","사용 가능한 닉네임입니다.",null);
     }
+
 }
