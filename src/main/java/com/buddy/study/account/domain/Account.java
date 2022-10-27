@@ -14,6 +14,8 @@ public class Account {
     @Id
     @GeneratedValue
     private Long id;
+    private String name;
     private String email;
     private String password;
+    private Boolean isDelete=false;
 }

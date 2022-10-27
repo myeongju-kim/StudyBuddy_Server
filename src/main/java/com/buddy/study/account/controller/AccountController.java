@@ -13,19 +13,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/account")
 public class AccountController {
     final private AccountService accountService;
-    @PostMapping("/api/v1/account")
+    @PostMapping("")
     public ResponseEntity<CommonResponse> joinUser(@RequestBody JoinRequest joinRequest){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(accountService.saveUser(joinRequest));
     }
-    @GetMapping("/api/v1/account/duplication")
-    public ResponseEntity<CommonResponse> dupUser(@RequestParam String email){
+    @DeleteMapping("/{id}")
+    public ResponseEntity outUser(@PathVariable(name="id") Long id){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(accountService.outUser(id));
+    }
+    @GetMapping("/duplication")
+    public ResponseEntity<CommonResponse> dupUser(@RequestParam("email") String email){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(accountService.checkUser(email));
     }
-    @PostMapping("/api/v1/account/login")
+    @PostMapping("/login")
     public ResponseEntity<CommonResponse> joinUser(@RequestBody LoginRequest loginRequest){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(accountService.loginUser(loginRequest));

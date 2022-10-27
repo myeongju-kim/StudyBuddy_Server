@@ -21,7 +21,7 @@ public class AccountExceptionHandler {
     }
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<CommonResponse> LoginFail(Exception e){
-        commonResponse.setCode("1001");
+        commonResponse.setCode("2000");
         commonResponse.setMessage(e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(commonResponse);
