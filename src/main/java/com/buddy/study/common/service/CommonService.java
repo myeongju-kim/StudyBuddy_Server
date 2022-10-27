@@ -27,7 +27,6 @@ public class CommonService {
         if(accountRepository.findByName(name)!=null){
             throw new NameDuplication("닉네임이 중복되었습니다.");
         }
-
         return response("0000","사용 가능한 닉네임입니다.",null);
     }
 

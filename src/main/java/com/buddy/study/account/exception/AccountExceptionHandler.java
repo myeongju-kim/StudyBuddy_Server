@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @ControllerAdvice("com.buddy.study.account")
 public class AccountExceptionHandler {
-    private final CommonService commonService;
+    final private CommonService commonService;
     @ExceptionHandler(EmailDuplication.class)
     public ResponseEntity<CommonResponse> EmailDuplication(Exception e){
         return ResponseEntity.status(HttpStatus.CONFLICT)
