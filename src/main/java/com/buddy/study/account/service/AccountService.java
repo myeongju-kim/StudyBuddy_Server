@@ -52,5 +52,4 @@ public class AccountService {
         loginResponse.setUid(account.getId());
         return commonService.response("0000","로그인에 성공했습니다.", loginResponse);
     }
-
 }
