@@ -18,7 +18,7 @@ public class CommonService {
     final private AccountRepository accountRepository;
     private CommonResponse commonResponse=new CommonResponse();
     public CommonResponse checkUser(String name){
-        if(accountRepository.findByName(name)){
+        if(accountRepository.findByName(name)!=null){
             throw new NameDuplication("닉네임이 중복되었습니다.");
         }
         commonResponse.setCode("0000");
