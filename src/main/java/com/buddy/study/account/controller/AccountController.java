@@ -3,7 +3,6 @@ package com.buddy.study.account.controller;
 
 import com.buddy.study.account.dto.JoinRequest;
 import com.buddy.study.account.dto.LoginRequest;
-import com.buddy.study.account.repository.AccountRepository;
 import com.buddy.study.account.service.AccountService;
 import com.buddy.study.common.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;
