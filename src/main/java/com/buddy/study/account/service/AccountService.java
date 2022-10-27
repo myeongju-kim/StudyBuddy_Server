@@ -19,6 +19,7 @@ public class AccountService {
     public CommonResponse saveUser(JoinRequest joinRequest){
         Account account= new Account();
         account.setEmail(joinRequest.getEmail());
+        account.setName(joinRequest.getName());
         account.setPassword(joinRequest.getPassword());
         accountRepository.save(account);
 
