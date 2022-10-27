@@ -13,27 +13,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/account")
 public class AccountController {
     final private AccountService accountService;
-    @PostMapping("/account")
+    @PostMapping("")
     public ResponseEntity<CommonResponse> joinUser(@RequestBody JoinRequest joinRequest){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(accountService.saveUser(joinRequest));
     }
-    @GetMapping("/account/duplication")
-    public ResponseEntity<CommonResponse> dupUser(@RequestParam String email){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(accountService.checkUser(email));
-    }
-    @PostMapping("/account/login")
-    public ResponseEntity<CommonResponse> joinUser(@RequestBody LoginRequest loginRequest){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(accountService.loginUser(loginRequest));
-    }
-    @DeleteMapping("/account")
+    @DeleteMapping("")
     public ResponseEntity outUser(@RequestBody JoinRequest joinRequest){
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
+    }
+    @GetMapping("/duplication")
+    public ResponseEntity<CommonResponse> dupUser(@RequestParam("email") String email){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(accountService.checkUser(email));
+    }
+    @PostMapping("/login")
+    public ResponseEntity<CommonResponse> joinUser(@RequestBody LoginRequest loginRequest){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(accountService.loginUser(loginRequest));
     }
 }
