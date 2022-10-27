@@ -28,6 +28,16 @@ public class AccountService {
         commonResponse.setResult(null);
         return commonResponse;
     }
+    public CommonResponse outUser(Long id){
+        Account account= accountRepository.findById(id).orElse(null);
+        account.setIsDelete(true);
+        accountRepository.save(account);
+
+        commonResponse.setCode("0000");
+        commonResponse.setMessage("회원탈퇴에 성공했습니다.");
+        commonResponse.setResult(null);
+        return commonResponse;
+    }
     public CommonResponse checkUser(String email){
         if(accountRepository.findByEmail(email)!=null){
             throw new EmailDuplication("이메일이 중복되었습니다.");
@@ -45,6 +55,9 @@ public class AccountService {
         }
         if(!account.getPassword().equals(loginRequest.getPassword())){
             throw new LoginException("패스워드가 일치하지 않습니다.");
+        }
+        if(account.getIsDelete()){
+            throw new LoginException("회원 탈퇴한 이메일입니다.");
         }
         LoginResponse loginResponse=new LoginResponse();
         loginResponse.setUid(account.getId());

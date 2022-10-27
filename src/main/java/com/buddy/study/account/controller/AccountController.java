@@ -21,10 +21,10 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(accountService.saveUser(joinRequest));
     }
-    @DeleteMapping("")
-    public ResponseEntity outUser(@RequestBody JoinRequest joinRequest){
+    @DeleteMapping("/{id}")
+    public ResponseEntity outUser(@PathVariable(name="id") Long id){
         return ResponseEntity.status(HttpStatus.OK)
-                .build();
+                .body(accountService.outUser(id));
     }
     @GetMapping("/duplication")
     public ResponseEntity<CommonResponse> dupUser(@RequestParam("email") String email){
