@@ -25,6 +25,7 @@ public class AccountService {
 
         commonResponse.setCode("0000");
         commonResponse.setMessage("회원가입에 성공했습니다.");
+        commonResponse.setResult(null);
         return commonResponse;
     }
     public CommonResponse checkUser(String email){
@@ -33,14 +34,16 @@ public class AccountService {
         }
         commonResponse.setCode("0000");
         commonResponse.setMessage("회원가입 가능한 메일입니다.");
+        commonResponse.setResult(null);
         return commonResponse;
     }
     public CommonResponse loginUser(LoginRequest loginRequest){
         Account account=accountRepository.findByEmail(loginRequest.getEmail());
+
         if(account==null){
             throw new LoginException("없는 아이디입니다.");
         }
-        if(account.getPassword()!=loginRequest.getPassword()){
+        if(!account.getPassword().equals(loginRequest.getPassword())){
             throw new LoginException("패스워드가 일치하지 않습니다.");
         }
         LoginResponse loginResponse=new LoginResponse();
