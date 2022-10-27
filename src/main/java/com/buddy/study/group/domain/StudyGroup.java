@@ -1,4 +1,4 @@
-package com.buddy.study.account.domain;
+package com.buddy.study.group.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +11,13 @@ import javax.persistence.Id;
 @Entity
 @Setter
 @Getter
-public class Account {
+public class StudyGroup {
     @Id
     @GeneratedValue
-    @Column(name="userId")
+    @Column(name="groupId")
     private Long id;
     private String name;
-    private String email;
-    private String password;
+    private Integer time;
+    private Integer maxPerson;
     private Boolean isDelete=false;
 }

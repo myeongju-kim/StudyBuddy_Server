@@ -4,10 +4,11 @@ import com.buddy.study.account.domain.Account;
 import com.buddy.study.account.dto.JoinRequest;
 import com.buddy.study.account.dto.LoginRequest;
 import com.buddy.study.account.dto.LoginResponse;
-import com.buddy.study.account.exception.EmailDuplication;
-import com.buddy.study.account.exception.LoginException;
 import com.buddy.study.account.repository.AccountRepository;
 import com.buddy.study.common.dto.CommonResponse;
+import com.buddy.study.common.dto.ErrorCode;
+import com.buddy.study.common.exception.ConflictException;
+import com.buddy.study.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,49 +23,33 @@ public class AccountService {
         account.setName(joinRequest.getName());
         account.setPassword(joinRequest.getPassword());
         accountRepository.save(account);
-
-        commonResponse.setCode("0000");
-        commonResponse.setMessage("회원가입에 성공했습니다.");
-        commonResponse.setResult(null);
-        return commonResponse;
+        return commonResponse.success("회원가입에 성공했습니다", null);
     }
     public CommonResponse outUser(Long id){
         Account account= accountRepository.findById(id).orElse(null);
         account.setIsDelete(true);
         accountRepository.save(account);
-
-        commonResponse.setCode("0000");
-        commonResponse.setMessage("회원탈퇴에 성공했습니다.");
-        commonResponse.setResult(null);
-        return commonResponse;
+        return commonResponse.success("성공적으로 회원 탈퇴되었습니다.", null);
     }
     public CommonResponse checkUser(String email){
         if(accountRepository.findByEmail(email)!=null){
-            throw new EmailDuplication("이메일이 중복되었습니다.");
+            throw new ConflictException(ErrorCode.DUPLICATE_EMAIL);
         }
-        commonResponse.setCode("0000");
-        commonResponse.setMessage("회원가입 가능한 메일입니다.");
-        commonResponse.setResult(null);
-        return commonResponse;
+        return commonResponse.success("사용가능한 이메일입니다.", null);
     }
     public CommonResponse loginUser(LoginRequest loginRequest){
         Account account=accountRepository.findByEmail(loginRequest.getEmail());
-
         if(account==null){
-            throw new LoginException("없는 아이디입니다.");
+            throw new UnauthorizedException(ErrorCode.INVALID_EMAIL);
         }
         if(!account.getPassword().equals(loginRequest.getPassword())){
-            throw new LoginException("패스워드가 일치하지 않습니다.");
+            throw new UnauthorizedException(ErrorCode.INVALID_PASSWORD);
         }
         if(account.getIsDelete()){
-            throw new LoginException("회원 탈퇴한 이메일입니다.");
+            throw new UnauthorizedException(ErrorCode.WITHDRAW_EMAIL);
         }
         LoginResponse loginResponse=new LoginResponse();
         loginResponse.setUid(account.getId());
-        commonResponse.setCode("0000");
-        commonResponse.setMessage("로그인에 성공했습니다.");
-        commonResponse.setResult(loginResponse);
-        return commonResponse;
+        return commonResponse.success("로그인에 성공했습니다.", loginResponse);
     }
-
 }
